@@ -7,7 +7,7 @@ const MovieList = (props) => {
     return (
         <div>
             {props.movies.map((movie, index) => (
-                <div className='card align-items-center'>
+                <div key={index} className='card align-items-center'>
                     <img src={imgLink+movie.poster_path} style={{ width: '20%', height: '20%' }}></img>
                     <div className='card-body'>
                         <h5 className='card-title'>{movie.original_title}</h5>
