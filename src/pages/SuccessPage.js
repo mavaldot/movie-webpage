@@ -8,7 +8,7 @@ const SuccessPage = () => {
 
     const getSessionKey = async () => {
         let requestToken = localStorage.getItem('requestToken') || '';
-        if (requestToken === '') ;
+        if (requestToken === '');
 
         const response = await axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=${API_KEY}`, {
             request_token: requestToken
@@ -27,7 +27,9 @@ const SuccessPage = () => {
 
     return (
         <div>
-            <p>Redirecting you to the webpage...</p>
+            <br></br>
+            <p>You are being redirected to the webpage...</p>
+            <p>Not working? Click <a href='/'>here</a></p>
         </div>
     )
 };

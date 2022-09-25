@@ -1,11 +1,17 @@
 import MovieList from '../components/MovieList'
 import { useState, useEffect } from 'react';
 
+import { Column, Row, Col, Container } from 'reactstrap'
+
+import "bootstrap/dist/css/bootstrap.css";
+
+
 const MoviePage = (props) => {
     const APPURL = process.env.REACT_APP_URL;
     const axios = require('axios').default;
 
-    let requestToken = localStorage.getItem('requestToken') || '';
+    //let requestToken = localStorage.getItem('requestToken') || '';
+    let requestToken = '';
     let sessionId = sessionStorage.getItem('sessionId') || '';
 
     const API_KEY = process.env.REACT_APP_API_KEY
@@ -27,7 +33,6 @@ const MoviePage = (props) => {
         if (sessionId !== '') return;
         await getToken();
         window.location.replace(`https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${APPURL}/success`);
-
     };
 
     useEffect(() => {
@@ -52,14 +57,14 @@ const MoviePage = (props) => {
     }, []);
 
     if (isLoading) {
-        return <div className='App'>Loading...</div>
+        return <div>Loading...</div>
     }
     else {
         return (
-            <div className="App">
-                <div>
-                    <MovieList movies={movieList.results} />
-                </div>
+            <div>
+                <Container>
+                        <MovieList movies={movieList.results} />
+                </Container>
             </div>
         );
 
