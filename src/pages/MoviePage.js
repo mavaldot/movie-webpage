@@ -1,60 +1,46 @@
 import MovieList from '../components/MovieList'
 import { useState, useEffect } from 'react';
 
-import { Column, Row, Col, Container } from 'reactstrap'
+import { Container } from 'reactstrap';
+
+import { getLatestMovies, getPopularMovies, getTopRatedMovies } from '../util/requests';
 
 import "bootstrap/dist/css/bootstrap.css";
+import MovieTabs from '../components/MovieTabs';
 
 
 const MoviePage = (props) => {
-    const APPURL = process.env.REACT_APP_URL;
-    const axios = require('axios').default;
 
-    //let requestToken = localStorage.getItem('requestToken') || '';
-    let requestToken = '';
+    const APPURL = process.env.REACT_APP_URL;
     let sessionId = sessionStorage.getItem('sessionId') || '';
 
-    const API_KEY = process.env.REACT_APP_API_KEY
+    // const axios = require('axios').default;
+    // const API_KEY = process.env.REACT_APP_API_KEY
 
-    const getToken = async () => {
-        const url = `https://api.themoviedb.org/3/authentication/token/new?api_key=${API_KEY}`;
-        const response = await axios.get(url);
-        requestToken = response.data.request_token;
-
-        console.log(`token`);
-        console.log(requestToken);
-        localStorage.setItem('requestToken', requestToken);
-    }
-
-    const authenticate = async () => {
-
-        console.log(`sessionId ${sessionId}`);
-        requestToken = '';
-        if (sessionId !== '') return;
-        await getToken();
-        window.location.replace(`https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${APPURL}/success`);
-    };
-
-    useEffect(() => {
-        authenticate();
-    }, []);
     const [movieList, setMovieList] = useState([]);
     const [isLoading, setLoading] = useState(true);
-
-    const getMovies = async () => {
-        const API_KEY = process.env.REACT_APP_API_KEY;
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
-
-        const response = await fetch(url);
-        const responseJson = await response.json();
-        setMovieList(responseJson);
-        setLoading(false);
-    };
+    const [sort, setSort] = useState('popular');
 
     useEffect(() => {
-        getMovies();
-
-    }, []);
+        const getMovies = async (pageNum, movieSort) => {
+            let movies = {};
+            switch (movieSort) {
+                case 'top':
+                    movies = await getTopRatedMovies(pageNum);
+                    break;
+                case 'latest':
+                    movies = await getLatestMovies(pageNum);
+                    break;
+                default:
+                    movies = await getPopularMovies(pageNum);
+                    break;
+    
+            }
+            setMovieList(movies);
+            setLoading(false);
+        };
+        getMovies(1, sort);
+    }, [sort]);
 
     if (isLoading) {
         return <div>Loading...</div>
@@ -62,8 +48,9 @@ const MoviePage = (props) => {
     else {
         return (
             <div>
+                <MovieTabs setSort={setSort}></MovieTabs>
                 <Container>
-                        <MovieList movies={movieList.results} />
+                        <MovieList key={sort} movies={movieList.results}/>
                 </Container>
             </div>
         );

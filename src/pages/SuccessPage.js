@@ -8,7 +8,11 @@ const SuccessPage = () => {
 
     const getSessionKey = async () => {
         let requestToken = localStorage.getItem('requestToken') || '';
-        if (requestToken === '');
+        if (requestToken === '') {
+            alert('There was an error. Please try again');
+            window.location.replace(`${APPURL}`);
+            return;
+        }
 
         const response = await axios.post(`https://api.themoviedb.org/3/authentication/session/new?api_key=${API_KEY}`, {
             request_token: requestToken
