@@ -1,12 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import { useState, useEffect } from 'react'
 import MoviePage from './pages/MoviePage';
 import SuccessPage from './pages/SuccessPage';
 import DetailPage from './pages/DetailPage';
 import AuthPage from './pages/AuthPage';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Navbar, Button, NavItem } from 'reactstrap';
+import { Route, Routes } from 'react-router-dom';
+import { Navbar, Button } from 'reactstrap';
 
 function App() {
 
@@ -23,9 +21,7 @@ function App() {
           <Route path='/' element={<MoviePage />} />
           <Route path='/success' element={<SuccessPage />} />
           <Route path='/auth' element={<AuthPage/>}></Route>
-          <Route path='/details/:id' element={<DetailPage/>}>
-            
-          </Route>
+          <Route path='/details/:id' element={<DetailPage/>}/>
 
         </Routes>
       </div>
