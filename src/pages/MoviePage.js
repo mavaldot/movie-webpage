@@ -10,13 +10,6 @@ import MovieTabs from '../components/MovieTabs';
 
 
 const MoviePage = (props) => {
-
-    const APPURL = process.env.REACT_APP_URL;
-    let sessionId = sessionStorage.getItem('sessionId') || '';
-
-    // const axios = require('axios').default;
-    // const API_KEY = process.env.REACT_APP_API_KEY
-
     const [movieList, setMovieList] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [sort, setSort] = useState('popular');

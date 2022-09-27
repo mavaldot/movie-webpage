@@ -1,17 +1,9 @@
-import MovieCard from './MovieCard';
 import {Col, Row, Card, CardImg, Button, CardText} from 'reactstrap';
-import { useEffect, useState } from 'react';
 
 const MovieList = (props) => {
 
     const imgLink = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/';
     const errorImg = 'https://www.100daysofrealfood.com/wp-content/uploads/2011/06/popcorn1-1551x2048.jpg';
-    const [loading, setLoading] = useState(true);
-    const [movies, setMovies] = useState([]);
-
-    useEffect(() => {
-        setMovies(props.movies);
-    }, []);
 
     return (
         <Row>
